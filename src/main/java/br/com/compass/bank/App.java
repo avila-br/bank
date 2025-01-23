@@ -1,4 +1,4 @@
-package br.com.compass;
+package br.com.compass.bank;
 
 import java.util.Scanner;
 
@@ -8,7 +8,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         mainMenu(scanner);
-        
+
         scanner.close();
         System.out.println("Application closed");
     }
@@ -84,7 +84,6 @@ public class App {
                     // ToDo...
                     System.out.println("Exiting...");
                     running = false;
-                    return;
                 default:
                     System.out.println("Invalid option! Please try again.");
             }
