@@ -1,0 +1,6 @@
+services:
+  db:
+    container_name: bank-challenge-db
+    build: ./src/main/resources/datasource/
+    ports:
+      - '5432:5432'
