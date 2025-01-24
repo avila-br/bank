@@ -76,7 +76,7 @@ public class UserRepository {
         Session session = getSession();
         session.beginTransaction();
 
-        if (Objects.isNull(session.find(User.class, user.getId())))
+        if (user.getId() == null || Objects.isNull(session.find(User.class, user.getId())))
             session.persist(user);
         else
             session.merge(user);

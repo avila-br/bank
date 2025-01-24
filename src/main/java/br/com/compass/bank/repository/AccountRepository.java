@@ -79,7 +79,7 @@ public class AccountRepository {
         Session session = getSession();
         session.beginTransaction();
 
-        if (Objects.isNull(session.find(Account.class, account.getId())))
+        if (account.getId() == null || Objects.isNull(session.find(Account.class, account.getId())))
             session.persist(account);
         else
             session.merge(account);
