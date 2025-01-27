@@ -1,13 +1,13 @@
 package br.com.compass.bank.repository;
 
 import br.com.compass.bank.model.Account;
+import br.com.compass.bank.model.User;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
-import java.util.Objects;
 
 public class AccountRepository {
 
@@ -79,12 +79,31 @@ public class AccountRepository {
         Session session = getSession();
         session.beginTransaction();
 
-        if (account.getId() == null || Objects.isNull(session.find(Account.class, account.getId())))
-            session.persist(account);
-        else
-            session.merge(account);
+        try {
+            // Save or update the associated user
+            User user = account.getUser();
+            if (user != null) {
+                if (user.getId() == null || session.find(User.class, user.getId()) == null)
+                    session.persist(user);
+                else
+                    session.merge(user);
 
-        session.getTransaction().commit();
+                account.setUser(user);
+            }
+
+            // Save or update the account
+            if (account.getId() == null || session.find(Account.class, account.getId()) == null)
+                session.persist(account);
+            else
+                session.merge(account);
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     /**
@@ -101,6 +120,17 @@ public class AccountRepository {
             session.remove(account);
 
         session.getTransaction().commit();
+    }
+
+    /**
+     * Lists all accounts in the database.
+     *
+     * @return a list of all accounts.
+     */
+    public static List<Account> list() {
+        Session session = getSession();
+
+        return session.createQuery("FROM Account", Account.class).list();
     }
 
     /**
