@@ -45,7 +45,7 @@ public class Account {
      * A user can have multiple accounts, but each account is linked to one user.
      */
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     /**

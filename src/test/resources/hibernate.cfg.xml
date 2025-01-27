@@ -28,5 +28,8 @@
 
         <!-- Echo all executed SQL to stdout -->
         <property name="hibernate.format_sql">true</property>
+
+        <mapping class="br.com.compass.bank.model.Account"/>
+        <mapping class="br.com.compass.bank.model.User"/>
     </session-factory>
 </hibernate-configuration>
