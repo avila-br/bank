@@ -16,11 +16,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 @Entity
 @Table(
         name = "t_account",
@@ -45,6 +47,13 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    /**
+     * The hashed password used for account login.
+     * This field stores the password in a hashed format for security.
+     */
+    @Column(name = "password_hash", nullable = false)
+    private String password;
 
     /**
      * The type of the account (e.g., checking, savings, etc.).

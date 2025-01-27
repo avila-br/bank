@@ -1,45 +1,45 @@
 package br.com.compass.bank;
 
+import br.com.compass.bank.view.AccountOpeningView;
+import br.com.compass.bank.view.ViewRenderer;
+
 import java.util.Scanner;
 
 public class App {
+
+    public static final Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        mainMenu(scanner);
-
+        menu(scanner);
         scanner.close();
         System.out.println("Application closed");
     }
 
-    public static void mainMenu(Scanner scanner) {
-        boolean running = true;
+    public static void menu(Scanner scanner) {
+        int option = ViewRenderer.readInteger("""
+        ╭────────────────────────────────╮
+        │           \u001B[34mMain Menu\u001B[0m            │
+        ├────────────────────────────────┤
+        │   \u001B[32m1 - Login\u001B[0m                    │
+        │   \u001B[33m2 - Account Opening\u001B[0m          │
+        │   \u001B[36m0 - Exit\u001B[0m                     │
+        ╰────────────────────────────────╯
+        >>\s""");
 
-        while (running) {
-            System.out.println("========= Main Menu =========");
-            System.out.println("|| 1. Login                ||");
-            System.out.println("|| 2. Account Opening      ||");
-            System.out.println("|| 0. Exit                 ||");
-            System.out.println("=============================");
-            System.out.print("Choose an option: ");
-
-            int option = scanner.nextInt();
-
-            switch (option) {
-                case 1:
-                    bankMenu(scanner);
-                    return;
-                case 2:
-                    // ToDo...
-                    System.out.println("Account Opening.");
-                    break;
-                case 0:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid option! Please try again.");
-            }
+        switch (option) {
+            case 1:
+                // TODO
+                // bankMenu(scanner);
+                break;
+            case 2:
+                AccountOpeningView.handle();
+                break;
+            case 0:
+                break;
+            default:
+                // TODO
+                // System.out.println("Invalid option! Please try again.");
+                break;
         }
     }
 
@@ -89,5 +89,5 @@ public class App {
             }
         }
     }
-    
+
 }
