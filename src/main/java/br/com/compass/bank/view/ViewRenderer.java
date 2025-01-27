@@ -34,7 +34,7 @@ public class ViewRenderer {
     public static void returnToMenu() {
         System.out.println("""
         \u001B[0m╭─────────────────────────────────────────╮
-        │   \u001B[33m0 - Return to the menu\u001B[0m                 │
+        │         \u001B[33m0 - Return to the menu\u001B[0m          │
         ╰─────────────────────────────────────────╯
         >>\s""");
 
