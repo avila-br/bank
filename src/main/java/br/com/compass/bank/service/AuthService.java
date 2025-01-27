@@ -1,10 +1,19 @@
 package br.com.compass.bank.service;
 
+import br.com.compass.bank.exception.AccountLoginException;
 import br.com.compass.bank.exception.AccountOpeningException;
 import br.com.compass.bank.model.Account;
 import br.com.compass.bank.repository.AccountRepository;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class AuthService {
+
+    public static class Context {
+        @Getter @Setter
+        private static Account current;
+    }
 
     public static void register(Account account) {
         String hash = AccountService.hashPassword(account.getPassword());
@@ -31,5 +40,15 @@ public class AuthService {
         } catch (Exception e) {
             throw new AccountOpeningException(e.getMessage());
         }
+    }
+
+    public static void login(Long id, String password) {
+        Account stored = AccountService.find(id)
+                .orElseThrow(() -> new AccountLoginException("Account not found."));
+
+        if (!AccountService.verifyPassword(password, stored.getPassword()))
+            throw new AccountLoginException("Incorrect password.");
+
+        Context.setCurrent(stored);
     }
 }

@@ -19,19 +19,24 @@ public class AccountService {
     }
 
     public static List<Account> findByCpf(String cpf) {
-        return UserRepository.list().stream()
-                .filter(u -> u.getCpf().equals(cpf))
-                .findFirst()
-                .map(user -> AccountRepository.findByUser(user.getId()))
+        return AccountService.formatCpf(cpf)
+                .map(formattedCpf -> UserRepository.list().stream()
+                        .filter(u -> u.getCpf().equals(formattedCpf))
+                        .findFirst()
+                        .map(user -> AccountRepository.findByUser(user.getId()))
+                        .orElse(Collections.emptyList())
+                )
                 .orElse(Collections.emptyList());
     }
 
-
     public static List<Account> findByPhone(String phone) {
-        return UserRepository.list().stream()
-                .filter(u -> u.getPhone().equals(phone))
-                .findFirst()
-                .map(user -> AccountRepository.findByUser(user.getId()))
+        return AccountService.formatPhone(phone)
+                .map(formattedPhone -> UserRepository.list().stream()
+                        .filter(u -> u.getPhone().equals(formattedPhone))
+                        .findFirst()
+                        .map(user -> AccountRepository.findByUser(user.getId()))
+                        .orElse(Collections.emptyList())
+                )
                 .orElse(Collections.emptyList());
     }
 
@@ -43,9 +48,9 @@ public class AccountService {
 
         return (cleaned.length() == 11)
                 ? Optional.of(String.format("+55 (%s) %s-%s",
-                cleaned.substring(2, 4),
-                cleaned.substring(4, 9),
-                cleaned.substring(9)
+                    cleaned.substring(0, 2),
+                    cleaned.substring(2, 7),
+                    cleaned.substring(7)
                 ))
                 : Optional.empty();
     }

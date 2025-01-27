@@ -1,5 +1,6 @@
 package br.com.compass.bank;
 
+import br.com.compass.bank.view.AccountLoginView;
 import br.com.compass.bank.view.AccountOpeningView;
 import br.com.compass.bank.view.ViewRenderer;
 
@@ -28,8 +29,7 @@ public class App {
 
         switch (option) {
             case 1:
-                // TODO
-                // bankMenu(scanner);
+                AccountLoginView.handle();
                 break;
             case 2:
                 AccountOpeningView.handle();
