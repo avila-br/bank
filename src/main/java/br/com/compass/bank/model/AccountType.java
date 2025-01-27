@@ -26,8 +26,22 @@ public enum AccountType {
         return switch (type.trim().toLowerCase()) {
             case "checking", "corrente" -> Optional.of(CHECKING);
             case "savings", "poupança" -> Optional.of(SAVINGS);
-            case "business", "jurídica" -> Optional.of(BUSINESS);
+            case "business", "jurídica", "juridica" -> Optional.of(BUSINESS);
             default -> Optional.empty();
+        };
+    }
+
+    /**
+     * Returns a human-readable string for the AccountType.
+     *
+     * @return A user-friendly string representation of the AccountType.
+     */
+    @Override
+    public String toString() {
+        return switch (this) {
+            case CHECKING -> "Checking";
+            case SAVINGS -> "Savings";
+            case BUSINESS -> "Business";
         };
     }
 }
