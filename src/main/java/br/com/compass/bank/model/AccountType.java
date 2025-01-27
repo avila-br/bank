@@ -7,8 +7,7 @@ import java.util.Optional;
  */
 public enum AccountType {
     CHECKING, // Representing a checking account
-    SAVINGS,  // Representing a savings account
-    BUSINESS;  // Representing a business account
+    SAVINGS; // Representing a savings account
 
     /**
      * Returns an AccountType based on the given string.
@@ -26,7 +25,6 @@ public enum AccountType {
         return switch (type.trim().toLowerCase()) {
             case "checking", "corrente" -> Optional.of(CHECKING);
             case "savings", "poupança" -> Optional.of(SAVINGS);
-            case "business", "jurídica", "juridica" -> Optional.of(BUSINESS);
             default -> Optional.empty();
         };
     }
@@ -41,7 +39,6 @@ public enum AccountType {
         return switch (this) {
             case CHECKING -> "Checking";
             case SAVINGS -> "Savings";
-            case BUSINESS -> "Business";
         };
     }
 }
