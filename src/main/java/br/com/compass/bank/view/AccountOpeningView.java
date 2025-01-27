@@ -1,5 +1,6 @@
 package br.com.compass.bank.view;
 
+import br.com.compass.bank.exception.AccountOpeningException;
 import br.com.compass.bank.model.Account;
 import br.com.compass.bank.model.AccountType;
 import br.com.compass.bank.model.User;
@@ -22,6 +23,16 @@ public class AccountOpeningView {
         │           \u001B[31m0 - Cancel\u001B[0m            │
         ╰─────────────────────────────────╯
         >> %s:\s""";
+
+    private static final String done = """
+        ╭──────────────────────────────────╮
+        │           \u001B[34mYour Account\u001B[0m           │
+        ╰──────────────────────────────────╯
+          \u001B[32mCPF: %s\u001B[0m
+          \u001B[33mName: %s\u001B[0m
+          \u001B[34mPhone: %s\u001B[0m
+          \u001B[35mAccount Type: %s\u001B[0m
+        """;
 
     public static void handle() {
         String cpf = ViewRenderer.readString(String.format(view, "?", "-", "-", "-", "CPF (e.g., 123.456.789-00)"));
@@ -77,10 +88,13 @@ public class AccountOpeningView {
                 .type(type)
                 .build();
 
-        AuthService.register(account).ifPresentOrElse (
-                created -> System.out.println("Account successfully created: " + created),
-                () -> System.out.println("Unable to create account")
-        );
+        try {
+            AuthService.register(account);
+            System.out.println("Account successfully created!");
+            System.out.printf((done) + "%n", cpf, name, phone, type);
+        } catch (AccountOpeningException e) {
+            System.out.println("Failed to create account: " + e.getMessage());
+        }
     }
 
 }
