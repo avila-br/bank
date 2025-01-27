@@ -36,6 +36,12 @@ public class AccountOpeningView {
 
     public static void handle() {
         String cpf = ViewRenderer.readString(String.format(view, "?", "-", "-", "-", "CPF (e.g., 123.456.789-00)"));
+        if ("0".equals(cpf)) {
+            System.out.println("Account opening canceled.");
+            ViewRenderer.returnToMenu();
+            return;
+        }
+
         Optional<Exception> cpfValidation = InputValidator.CPF.validate(cpf);
         while (cpfValidation.isPresent()) {
             System.out.println(cpfValidation.get().getMessage());
@@ -44,6 +50,12 @@ public class AccountOpeningView {
         }
 
         String name = ViewRenderer.readString(String.format(view, cpf, "?", "-", "-", "Name"));
+        if ("0".equals(name)) {
+            System.out.println("Account opening canceled.");
+            ViewRenderer.returnToMenu();
+            return;
+        }
+
         Optional<Exception> nameValidation = InputValidator.NAME.validate(name);
         while (nameValidation.isPresent()) {
             System.out.println(nameValidation.get().getMessage());
@@ -52,6 +64,12 @@ public class AccountOpeningView {
         }
 
         String phone = ViewRenderer.readString(String.format(view, cpf, name, "?", "-", "Phone Number"));
+        if ("0".equals(phone)) {
+            System.out.println("Account opening canceled.");
+            ViewRenderer.returnToMenu();
+            return;
+        }
+
         Optional<Exception> phoneValidation = InputValidator.PHONE.validate(phone);
         while (phoneValidation.isPresent()) {
             System.out.println(phoneValidation.get().getMessage());
@@ -60,6 +78,12 @@ public class AccountOpeningView {
         }
 
         String typeStr = ViewRenderer.readString(String.format(view, cpf, name, phone, "?", "Account Type"));
+        if ("0".equals(typeStr)) {
+            System.out.println("Account opening canceled.");
+            ViewRenderer.returnToMenu();
+            return;
+        }
+
         Optional<AccountType> accountTypeValidation = AccountType.from(typeStr);
         while (accountTypeValidation.isEmpty()) {
             System.out.println("Invalid account type. Please choose from: Checking, Savings, or Business.");
@@ -69,6 +93,12 @@ public class AccountOpeningView {
         AccountType type = accountTypeValidation.get();
 
         String password = ViewRenderer.readString(String.format(view, cpf, name, phone, type, "Password"));
+        if ("0".equals(password)) {
+            System.out.println("Account opening canceled.");
+            ViewRenderer.returnToMenu();
+            return;
+        }
+
         Optional<Exception> passwordValidation = InputValidator.PASSWORD.validate(password);
         while (passwordValidation.isPresent()) {
             System.out.println(passwordValidation.get().getMessage());
@@ -92,6 +122,7 @@ public class AccountOpeningView {
             AuthService.register(account);
             System.out.println("Account successfully created!");
             System.out.printf((done) + "%n", cpf, name, phone, type);
+            ViewRenderer.returnToMenu();
         } catch (AccountOpeningException e) {
             System.out.println("Failed to create account: " + e.getMessage());
         }
