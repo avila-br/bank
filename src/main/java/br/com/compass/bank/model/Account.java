@@ -18,6 +18,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -62,4 +64,11 @@ public class Account {
     @Column(name = "account_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountType type;
+
+    /**
+     * The balance of the account.
+     */
+    @Column(name = "balance", nullable = false)
+    @Builder.Default
+    private BigDecimal balance = BigDecimal.ZERO;
 }
