@@ -1,6 +1,6 @@
 package br.com.compass.bank.view;
 
-import br.com.compass.bank.exception.AccountLoginException;
+import br.com.compass.bank.exception.account.AccountLoginException;
 import br.com.compass.bank.model.Account;
 import br.com.compass.bank.service.AccountService;
 import br.com.compass.bank.service.AuthService;
@@ -57,6 +57,7 @@ public class AccountLoginView {
             try {
                 AuthService.login(account.getId(), password);
                 System.out.println("Login successful!");
+                AccountView.handle();
                 break;
             } catch (AccountLoginException e) {
                 System.out.println("Error: " + e.getMessage());
@@ -116,7 +117,7 @@ public class AccountLoginView {
         }
 
         // Generate the full view with the account list
-        return String.format(template, list.toString().trim(), "Account Number");
+        return String.format(template, list.toString().trim(), "Account");
     }
 
 }

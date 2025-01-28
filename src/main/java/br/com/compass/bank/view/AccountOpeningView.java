@@ -1,6 +1,6 @@
 package br.com.compass.bank.view;
 
-import br.com.compass.bank.exception.AccountOpeningException;
+import br.com.compass.bank.exception.account.AccountOpeningException;
 import br.com.compass.bank.model.Account;
 import br.com.compass.bank.model.AccountType;
 import br.com.compass.bank.model.User;

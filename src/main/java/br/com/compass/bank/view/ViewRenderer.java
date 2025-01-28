@@ -2,6 +2,7 @@ package br.com.compass.bank.view;
 
 import br.com.compass.bank.App;
 
+import java.math.BigDecimal;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -17,7 +18,7 @@ public class ViewRenderer {
     public static void retry(Runnable method) {
         int option = readInteger("""
         \u001B[0m╭─────────────────────────────────────────╮
-        │ \u001B[34m            Try again?\u001B[0m                  │
+        │ \u001B[34m               Try again?\u001B[0m               │
         ├─────────────────────────────────────────┤
         │   \u001B[32m1 - Yes!\u001B[0m                              │
         │   \u001B[33m2 - Return to the menu\u001B[0m                │
@@ -26,13 +27,13 @@ public class ViewRenderer {
 
         switch (option) {
             case 1 -> method.run();
-            case 2 -> App.menu(scanner);
+            case 2 -> App.menu();
             default -> retry(method);
         }
     }
 
     public static void returnToMenu() {
-        System.out.println("""
+        System.out.print("""
         \u001B[0m╭─────────────────────────────────────────╮
         │         \u001B[33m0 - Return to the menu\u001B[0m          │
         ╰─────────────────────────────────────────╯
@@ -40,7 +41,19 @@ public class ViewRenderer {
 
         scanner.next();
         scanner.nextLine();
-        App.menu(scanner);
+        App.menu();
+    }
+
+    public static void returnTo(Runnable menu) {
+        System.out.print("""
+        \u001B[0m╭─────────────────────────────╮
+        │         \u001B[33m0 - Return\u001B[0m          │
+        ╰─────────────────────────────╯
+        >>\s""");
+
+        scanner.next();
+        scanner.nextLine();
+        menu.run();
     }
 
     public static int readInteger(String label) {
@@ -77,6 +90,21 @@ public class ViewRenderer {
     public static String readString(String label) {
         System.out.print(label);
         return scanner.nextLine().trim();
+    }
+
+    public static BigDecimal readBigDecimal(String label) {
+        System.out.print(label);
+        String value = scanner.nextLine().replace(',', '.');
+
+        BigDecimal result;
+        try {
+            result = new BigDecimal(value);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid amount! Please try again.");
+            result = readBigDecimal("\n>> ");
+        }
+
+        return result;
     }
 
 }
