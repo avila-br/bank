@@ -1,20 +1,17 @@
 package br.com.compass.bank.repository;
 
+import br.com.compass.bank.internal.DatabaseConnection;
 import br.com.compass.bank.model.User;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 import java.util.Objects;
 
 public class UserRepository {
 
-    private static final SessionFactory factory = new Configuration()
-            .configure("hibernate.cfg.xml")
-            .addAnnotatedClass(User.class)
-            .buildSessionFactory();
+    private static final SessionFactory factory = DatabaseConnection.getFactory();
 
     private static final ThreadLocal<Session> context = new ThreadLocal<>();
 

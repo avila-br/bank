@@ -1,20 +1,17 @@
 package br.com.compass.bank.repository;
 
+import br.com.compass.bank.internal.DatabaseConnection;
 import br.com.compass.bank.model.Account;
 import br.com.compass.bank.model.User;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class AccountRepository {
 
-    private static final SessionFactory factory = new Configuration()
-            .configure("hibernate.cfg.xml")
-            .addAnnotatedClass(Account.class)
-            .buildSessionFactory();
+    private static final SessionFactory factory = DatabaseConnection.getFactory();
 
     private static final ThreadLocal<Session> context = new ThreadLocal<>();
 
@@ -23,7 +20,7 @@ public class AccountRepository {
      *
      * @return the current Hibernate session.
      */
-    private static Session getSession() {
+    public static Session getSession() {
         Session session = context.get();
         if (session == null || !session.isOpen()) {
             session = factory.openSession();
@@ -36,7 +33,7 @@ public class AccountRepository {
     /**
      * Closes the current Hibernate session.
      */
-    private static void closeSession() {
+    public static void closeSession() {
         Session session = context.get();
         if (session != null && session.isOpen())
             session.close();

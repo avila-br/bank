@@ -1,7 +1,7 @@
 package br.com.compass.bank.service;
 
-import br.com.compass.bank.exception.AccountLoginException;
-import br.com.compass.bank.exception.AccountOpeningException;
+import br.com.compass.bank.exception.account.AccountLoginException;
+import br.com.compass.bank.exception.account.AccountOpeningException;
 import br.com.compass.bank.model.Account;
 import br.com.compass.bank.repository.AccountRepository;
 

@@ -13,5 +13,6 @@
 
         <mapping class="br.com.compass.bank.model.User"/>
         <mapping class="br.com.compass.bank.model.Account"/>
+        <mapping class="br.com.compass.bank.model.Transaction"/>
     </session-factory>
 </hibernate-configuration>
