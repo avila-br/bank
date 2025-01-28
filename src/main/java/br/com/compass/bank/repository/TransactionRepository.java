@@ -14,8 +14,10 @@ import java.util.List;
 
 public class TransactionRepository {
 
+    // Hibernate SessionFactory to manage session creation
     private static final SessionFactory factory = DatabaseConnection.getFactory();
 
+    // ThreadLocal to store a Session for the current thread
     private static final ThreadLocal<Session> context = new ThreadLocal<>();
 
     /**

@@ -20,11 +20,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class is responsible for handling the user interactions with their bank account. It provides methods
+ * for performing various banking operations such as deposit, withdraw, checking balance, transferring money,
+ * and viewing the bank statement. It also ensures that user input is validated before any operation is performed.
+ * The class uses a menu-driven interface to interact with the user.
+ */
 public class AccountView {
 
     @Setter(AccessLevel.PRIVATE)
     private static Account user;
 
+    /**
+     * Displays the bank menu for the user and navigates between options.
+     * The available options are: Deposit, Withdraw, Check Balance, Transfer, Bank Statement, and Exit.
+     * Based on the selected option, the corresponding method is invoked.
+     * This method acts as the entry point for handling user interactions within the account menu.
+     */
     public static void handle() {
         AccountView.setUser(AuthService.Context.getCurrent());
 
@@ -52,6 +64,11 @@ public class AccountView {
         }
     }
 
+    /**
+     * Handles the deposit process by prompting the user for an amount and performing the deposit transaction.
+     * It checks that the deposit amount is greater than zero and calls the appropriate service to execute the deposit.
+     * If the deposit is successful, it confirms the operation to the user.
+     */
     private static void deposit() {
         final String view = """
         ╭──────────────────────────────────╮
@@ -79,6 +96,11 @@ public class AccountView {
         }
     }
 
+    /**
+     * Handles the withdrawal process by prompting the user for an amount and performing the withdrawal transaction.
+     * It checks that the withdrawal amount is greater than zero and calls the appropriate service to execute the withdrawal.
+     * If the withdrawal is successful, it confirms the operation to the user.
+     */
     private static void withdraw() {
         final String view = """
         ╭──────────────────────────────────╮
@@ -105,6 +127,10 @@ public class AccountView {
         }
     }
 
+    /**
+     * Displays the current balance of the user's account.
+     * This method prints the balance in a user-friendly format to the console.
+     */
     private static void balance() {
         final String done = """
         ╭─────────────────────────────╮
@@ -117,6 +143,11 @@ public class AccountView {
         ViewRenderer.returnTo(AccountView::handle);
     }
 
+    /**
+     * Handles the transfer process by prompting the user for the recipient's account number or CPF and the amount to transfer.
+     * It validates the input, checks for sufficient funds, and attempts the transfer. If the transfer is successful, it confirms the operation to the user.
+     * If there is an error, such as insufficient funds or invalid account information, it will display an error message.
+     */
     private static void transfer() {
         final String view = """
         ╭───────────────────────────────────╮
@@ -196,6 +227,10 @@ public class AccountView {
         }
     }
 
+    /**
+     * Displays the user's bank statement by retrieving all transactions related to their account.
+     * If no transactions are found, a message is displayed indicating that there is no data to show.
+     */
     private static void statement() {
         List<Transaction> transactions = TransactionRepository.findByAccount(user);
 

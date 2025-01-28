@@ -9,10 +9,16 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * UserRepository provides CRUD operations for User entities using Hibernate.
+ * It is responsible for interacting with the database to manage User data.
+ */
 public class UserRepository {
 
+    // Hibernate SessionFactory to manage session creation
     private static final SessionFactory factory = DatabaseConnection.getFactory();
 
+    // ThreadLocal to store a Session for the current thread
     private static final ThreadLocal<Session> context = new ThreadLocal<>();
 
     /**
@@ -32,6 +38,7 @@ public class UserRepository {
 
     /**
      * Closes the current Hibernate session.
+     * This method should be called after each operation to release resources.
      */
     private static void closeSession() {
         Session session = context.get();
@@ -66,6 +73,7 @@ public class UserRepository {
 
     /**
      * Saves or updates the user in the database.
+     * If the user does not exist, it will be inserted; otherwise, it will be updated.
      *
      * @param user the user to save or update.
      */
@@ -73,10 +81,11 @@ public class UserRepository {
         Session session = getSession();
         session.beginTransaction();
 
+        // Check if the user exists in the database
         if (user.getId() == null || Objects.isNull(session.find(User.class, user.getId())))
-            session.persist(user);
+            session.persist(user); // Insert new user
         else
-            session.merge(user);
+            session.merge(user); // Update existing user
 
         session.getTransaction().commit();
     }
@@ -90,6 +99,7 @@ public class UserRepository {
         Session session = getSession();
         session.beginTransaction();
 
+        // Find the user by ID and remove it
         User user = session.get(User.class, id);
         if (user != null)
             session.remove(user);
@@ -99,6 +109,7 @@ public class UserRepository {
 
     /**
      * Closes the session factory, should be called on application shutdown.
+     * This method releases resources and closes the Hibernate factory.
      */
     public static void shutdown() {
         factory.close();

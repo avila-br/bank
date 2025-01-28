@@ -9,6 +9,14 @@ import br.com.compass.bank.validation.InputValidator;
 
 import java.util.Optional;
 
+/**
+ * This class handles the account opening process for users.
+ * <p>
+ * The user is prompted to enter their CPF, name, phone number, account type, and password.
+ * Each input is validated, and if the user provides valid data, an account is created.
+ * If an error occurs during account creation, the user is informed.
+ * </p>
+ */
 public class AccountOpeningView {
 
     private static final String view = """
@@ -34,6 +42,14 @@ public class AccountOpeningView {
           \u001B[35mAccount Type: %s\u001B[0m
         """;
 
+    /**
+     * Main handler for the account opening view.
+     * <p>
+     * This method prompts the user to input their personal details, including CPF, name, phone number, account type, and password.
+     * Each input is validated using the respective validators. If all inputs are valid, an account is created and registered.
+     * If any validation fails or an error occurs during account creation, the process is halted and the user is informed.
+     * </p>
+     */
     public static void handle() {
         String cpf = ViewRenderer.readString(String.format(view, "?", "-", "-", "-", "CPF (e.g., 123.456.789-00)"));
         if ("0".equals(cpf)) {

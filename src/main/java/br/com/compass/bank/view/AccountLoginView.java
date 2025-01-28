@@ -9,6 +9,13 @@ import br.com.compass.bank.validation.InputValidator;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class handles the login process for users by allowing them to input their CPF and password.
+ * <p>
+ * It validates the CPF format, retrieves the accounts associated with the CPF, and allows the user to select an account.
+ * The user is then prompted to enter a password. If the password is correct, the user is logged in, and the corresponding account view is displayed.
+ * </p>
+ */
 public class AccountLoginView {
 
     private static final String view = """
@@ -22,6 +29,15 @@ public class AccountLoginView {
         ╰─────────────────────────────────╯
         >> %s:\s""";
 
+    /**
+     * Main handler for the account login view.
+     * <p>
+     * This method prompts the user to input their CPF and validates its format.
+     * It then retrieves the list of accounts associated with the CPF and allows the user to select an account.
+     * After selecting an account, the user is asked to input a password. If the password is correct, the login is successful,
+     * and the corresponding account view is shown. If there are errors, the user is prompted to try again.
+     * </p>
+     */
     public static void handle() {
         String cpf = ViewRenderer.readString(String.format(view, "?", "-", "CPF (e.g., 123.456.789-00)"));
         if ("0".equals(cpf)) {
@@ -105,6 +121,13 @@ public class AccountLoginView {
         }
     }
 
+    /**
+     * Constructs the view of the available accounts for the user to select from.
+     *
+     * @param accounts List of accounts to display.
+     * @param template The template to format the account list in the view.
+     * @return The formatted string to be displayed to the user.
+     */
     private static String getAccountsView(List<Account> accounts, String template) {
         StringBuilder list = new StringBuilder();
         for (int i = 0; i < accounts.size(); i++) {
