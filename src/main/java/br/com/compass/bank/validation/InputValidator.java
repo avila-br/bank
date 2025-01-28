@@ -33,7 +33,7 @@ public enum InputValidator {
             final String PHONE_PATTERN = "^\\+55 \\(\\d{2}\\) 9\\d{4}\\d{4}$|^\\+55\\d{11}$|^\\+55 \\(\\d{2}\\) 9\\d{4}-\\d{4}$|^55\\d{11}$";
 
             if (input == null || !input.matches(PHONE_PATTERN))
-                return Optional.of(new IllegalArgumentException("Invalid phone number format. Correct formats: +55 XX 9XXXX-XXXX, +55(XX)9XXXX-XXXX, or 55XXXXXXXXXXX"));
+                return Optional.of(new IllegalArgumentException("Invalid phone number format. Correct formats: +55 (XX) 9XXXX-XXXX, or +55XX9XXXXXXXX"));
 
             return Optional.empty();
         }
