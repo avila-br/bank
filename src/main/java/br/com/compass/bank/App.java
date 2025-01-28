@@ -11,12 +11,12 @@ public class App {
     public static final Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
-        menu(scanner);
+        menu();
         scanner.close();
         System.out.println("Application closed");
     }
 
-    public static void menu(Scanner scanner) {
+    public static void menu() {
         int option = ViewRenderer.readInteger("""
         ╭────────────────────────────────╮
         │           \u001B[34mMain Menu\u001B[0m            │
@@ -35,6 +35,7 @@ public class App {
                 AccountOpeningView.handle();
                 break;
             case 0:
+                System.exit(0);
                 break;
             default:
                 // TODO
