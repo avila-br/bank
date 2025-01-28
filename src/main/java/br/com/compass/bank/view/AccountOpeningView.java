@@ -86,8 +86,8 @@ public class AccountOpeningView {
 
         Optional<AccountType> accountTypeValidation = AccountType.from(typeStr);
         while (accountTypeValidation.isEmpty()) {
-            System.out.println("Invalid account type. Please choose from: Checking, Savings, or Business.");
-            typeStr = ViewRenderer.readString("Enter your account type (Checking, Savings, Business): ");
+            System.out.println("Invalid account type. Please choose from: Checking or Savings.");
+            typeStr = ViewRenderer.readString("Enter your account type (Checking, Savings): ");
             accountTypeValidation = AccountType.from(typeStr);
         }
         AccountType type = accountTypeValidation.get();
@@ -125,6 +125,7 @@ public class AccountOpeningView {
             ViewRenderer.returnToMenu();
         } catch (AccountOpeningException e) {
             System.out.println("Failed to create account: " + e.getMessage());
+            ViewRenderer.returnToMenu();
         }
     }
 
